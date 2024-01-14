@@ -1,0 +1,9 @@
+2:31:14 
+
+Commands 
+yarn create vite   
+yarn dev
+npx tailwindcss init -p    
+yarn add tailwindcss postcss autoprefixer
+
+
