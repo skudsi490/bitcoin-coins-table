@@ -4,6 +4,9 @@ import ResultRow from "./ResultRow";
 import axios from "axios";
 import { sortBy } from "lodash";
 import useDebouncedEffect from "use-debounced-effect";
+import githubLogo from './assets/github-11-128.png'; 
+import linkedinLogo from './assets/linkedin-6-128.png'; 
+
 
 type CachedResult = {
   provider: string;
@@ -130,6 +133,16 @@ function App() {
             />
           ))}
       </div>
+      {/* Footer with Social Links */}
+<div className="footer mt-8 flex justify-center space-x-4">
+  <a href="https://github.com/skudsi490/" target="_blank" rel="noopener noreferrer" className="flex items-center">
+    <img src={githubLogo} alt="GitHub" className="h-6 w-6 mr-2" /> GitHub
+  </a>
+  <a href="https://www.linkedin.com/in/sami-kudsi-0b1010164/" target="_blank" rel="noopener noreferrer" className="flex items-center">
+    <img src={linkedinLogo} alt="LinkedIn" className="h-6 w-6 mr-2" /> LinkedIn
+  </a>
+</div>
+
     </main>
   );
 }

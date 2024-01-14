@@ -1,8 +1,8 @@
-# Coins Table
+# Bitcoin Coins Table
 
 ## Overview
 
-Coins Table is a web application designed to provide users with real-time cryptocurrency data, allowing them to compare and find the cheapest Bitcoin rates from various providers. Built with modern web technologies, this project showcases a sleek UI and efficient backend integration.
+Bitcoin Coins Table is a web application designed to provide users with real-time cryptocurrency data, allowing them to compare and find the cheapest Bitcoin rates from various providers. Built with modern web technologies, this project showcases a sleek UI and efficient backend integration.
 
 ## Features
 
