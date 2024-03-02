@@ -2,25 +2,127 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
 body {
   background-color: #113;
-  color:#fff;
-  background-image: radial-gradient(at 50% 50%, #226 20%, transparent 100%);
+  color: #fff;
   height: 100vh;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden; 
 }
 
-@keyframes from-left-to-right {
-
-  0%{
-    translate: -100%;
-  }
-  100%{
-    translate: 100%;
-
-  }
-  
+/* Container for the entire app */
+.main-container {
+  display: flex;
+  position: relative; 
+  height: 100vh;
+  align-items: center;
+  justify-content: flex-start; 
+  padding: 4rem; 
 }
 
-.skeleton-animation{
-  animation: from-left-to-right 2s infinite ;
+/* Side image */
+.side-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 50%;
+  object-fit: cover; 
+  z-index: 0;
+}
+
+/* Content Section */
+.content {
+  z-index: 1; 
+  width: 50%; 
+  margin-left: auto; 
+}
+
+/* Title and Subtitle */
+.title {
+  font-size: 3rem; 
+  font-weight: 700; 
+  color: #ffffff;
+  text-align: left;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1.5rem; 
+  font-weight: 400; 
+  color: #a1a1d6; 
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+/* Amount Input */
+.amount-input {
+  position: relative; 
+  margin-bottom: 2rem;
+}
+
+.input-field {
+  width: 100%; 
+  padding: 1rem;
+  border-radius: 0.25rem; 
+  border: 2px solid #a1a1d6; 
+  background-color: transparent; 
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.input-currency {
+  position: absolute;
+  right: 1rem; 
+  top: 50%; 
+  transform: translateY(-50%); 
+  color: #a1a1d6;
+  pointer-events: none; 
+}
+
+/* Results Container */
+.results-container {
+  border-radius: 0.5rem;
+  overflow: hidden; 
+  margin-bottom: 2rem; 
+}
+
+/* Footer */
+.footer {
+  color: #fff;
+  position: fixed;
+  left: 22%;
+  bottom: 5%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 10;
+  font-family: 'Inter', sans-serif;
+}
+
+.footer-text {
+  margin-right: 2rem; 
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.heart {
+  color: red; 
+  margin: 0 0.25rem; 
+}
+
+.social-links {
+  display: flex;
+  align-items: center;
+}
+
+.social-icon {
+  width: 24px; 
+  height: 24px;
+  margin: 0 0.5rem; 
 }

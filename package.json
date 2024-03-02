@@ -10,10 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@svgr/webpack": "^8.1.0",
     "@types/lodash": "^4.14.202",
     "autoprefixer": "^10.4.16",
     "axios": "^1.6.5",
-    "loadash": "^1.0.0",
     "lodash": "^4.17.21",
     "postcss": "^8.4.33",
     "react": "^18.2.0",
