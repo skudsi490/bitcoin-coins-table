@@ -139,10 +139,10 @@ function App() {
       <footer className="footer">
   <p className="footer-text">Built with <span className="heart">❤️</span> by Sami Kudsi</p>
   <div className="social-links">
-    <a href="https://www.linkedin.com/in/yourprofile/" target="_blank" rel="noopener noreferrer" className="flex items-center">
+    <a href="https://www.linkedin.com/in/sami-kudsi-0b1010164/" target="_blank" rel="noopener noreferrer" className="flex items-center">
       <img src={linkedinLogo} alt="LinkedIn" className="social-icon" />
     </a>
-    <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" className="flex items-center">
+    <a href="https://github.com/skudsi490" target="_blank" rel="noopener noreferrer" className="flex items-center">
       <img src={githubLogo} alt="GitHub" className="social-icon" />
     </a>
   </div>
