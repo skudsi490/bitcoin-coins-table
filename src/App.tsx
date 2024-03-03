@@ -25,7 +25,7 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://4jzrf4a39y.us.aircode.run/cachedValues")
+    fetch("http://4jzrf4a39y.us.aircode.run/cachedValues")
       .then(response => response.json())
       .then(data => {
         if (Array.isArray(data.results)) {
@@ -41,7 +41,7 @@ function App() {
         setLoading(false);
       });
   }, []);
-
+  
   useDebouncedEffect(
     () => {
       if (amount === defaultAmount) {
@@ -49,7 +49,7 @@ function App() {
       }
       if (amount !== prevAmount) {
         setLoading(true);
-        fetch(`https://4jzrf4a39y.us.aircode.run/offers?amount=${amount}`)
+        fetch(`http://4jzrf4a39y.us.aircode.run/offers?amount=${amount}`)
           .then(response => response.json())
           .then(data => {
             setLoading(false);
@@ -65,6 +65,7 @@ function App() {
     300,
     [amount]
   );
+  
 
   function safeParseFloat(value: string | undefined): number {
     if (value === undefined) return 0;

@@ -14,7 +14,6 @@ Bitcoin Coins Table is a web application designed to provide users with real-tim
 
 - React.js for the frontend.
 - Tailwind CSS for styling.
-- Axios for API requests.
 - Vite for efficient bundling and development.
 - Deployed on Vercel for seamless hosting.
 
