@@ -1,7 +1,7 @@
-// Replace import axios with import fetch
 import { useEffect, useState } from "react";
 import AmountInput from "./AmountInput";
 import ResultRow from "./ResultRow";
+import axios from "axios"; // Using axios for simplicity
 import { sortBy } from "lodash";
 import useDebouncedEffect from "use-debounced-effect";
 import githubLogo from "./assets/github-11-128.png";
@@ -18,54 +18,39 @@ type OfferResults = { [key: string]: string };
 const defaultAmount = "100";
 
 function App() {
-  const [prevAmount, setPrevAmount] = useState(defaultAmount);
   const [amount, setAmount] = useState(defaultAmount);
   const [cachedResults, setCachedResults] = useState<CachedResult[]>([]);
   const [offerResults, setOfferResults] = useState<OfferResults>({});
   const [loading, setLoading] = useState(true);
 
+  // Fetch cached values
   useEffect(() => {
-    fetch("http://4jzrf4a39y.us.aircode.run/cachedValues")
-      .then(response => response.json())
-      .then(data => {
-        if (Array.isArray(data.results)) {
-          setCachedResults(data.results);
-        } else {
-          console.error("Unexpected data structure:", data);
-          setCachedResults([]);
-        }
+    axios.get('/api/cachedValues')
+      .then((res) => {
+        setCachedResults(res.data.results);
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching data: ", error);
+        console.error("Error fetching cached values:", error);
         setLoading(false);
       });
   }, []);
-  
-  useDebouncedEffect(
-    () => {
-      if (amount === defaultAmount) {
-        return;
-      }
-      if (amount !== prevAmount) {
-        setLoading(true);
-        fetch(`http://4jzrf4a39y.us.aircode.run/offers?amount=${amount}`)
-          .then(response => response.json())
-          .then(data => {
-            setLoading(false);
-            setOfferResults(data);
-            setPrevAmount(amount);
-          })
-          .catch((error) => {
-            console.error("Error fetching offer results:", error);
-            setLoading(false);
-          });
-      }
-    },
-    300,
-    [amount]
-  );
-  
+
+  // Fetch offers based on the amount
+  useDebouncedEffect(() => {
+    if (amount === defaultAmount) return;
+
+    setLoading(true);
+    axios.get(`/api/offers?amount=${amount}`)
+      .then((res) => {
+        setOfferResults(res.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching offers:", error);
+        setLoading(false);
+      });
+  }, 500, [amount]);
 
   function safeParseFloat(value: string | undefined): number {
     if (value === undefined) return 0;
@@ -73,31 +58,8 @@ function App() {
     return isNaN(number) ? 0 : number;
   }
 
-  const sortedCache = sortBy(
-    cachedResults
-      .filter((result): result is CachedResult => result != null)
-      .map((result) => ({
-        ...result,
-        btc: safeParseFloat(result.btc).toString(),
-      })),
-    (result) => safeParseFloat(result.btc)
-  ).reverse();
-
-  const sortedResults: CachedResult[] = sortBy(
-    Object.keys(offerResults)
-      .map(
-        (provider): CachedResult => ({
-          provider,
-          btc: offerResults[provider] ?? "0",
-        })
-      )
-      .map((result) => ({
-        ...result,
-        btc: safeParseFloat(result.btc).toString(),
-      })),
-    (result) => safeParseFloat(result.btc)
-  ).reverse();
-
+  const sortedCache = sortBy(cachedResults, (result) => -safeParseFloat(result.btc));
+  const sortedResults = sortBy(Object.entries(offerResults).map(([provider, btc]) => ({ provider, btc })), (result) => -safeParseFloat(result.btc));
   const showCached = amount === defaultAmount;
 
   return (
@@ -138,17 +100,16 @@ function App() {
         </div>
       </section>
       <footer className="footer">
-  <p className="footer-text">Built with <span className="heart">❤️</span> by Sami Kudsi</p>
-  <div className="social-links">
-    <a href="https://www.linkedin.com/in/sami-kudsi-0b1010164/" target="_blank" rel="noopener noreferrer" className="flex items-center">
-      <img src={linkedinLogo} alt="LinkedIn" className="social-icon" />
-    </a>
-    <a href="https://github.com/skudsi490" target="_blank" rel="noopener noreferrer" className="flex items-center">
-      <img src={githubLogo} alt="GitHub" className="social-icon" />
-    </a>
-  </div>
-</footer>
-
+        <p className="footer-text">Built with <span className="heart">❤️</span> by Sami Kudsi</p>
+        <div className="social-links">
+          <a href="https://www.linkedin.com/in/sami-kudsi-0b1010164/" target="_blank" rel="noopener noreferrer" className="flex items-center">
+            <img src={linkedinLogo} alt="LinkedIn" className="social-icon" />
+          </a>
+          <a href="https://github.com/skudsi490" target="_blank" rel="noopener noreferrer" className="flex items-center">
+            <img src={githubLogo} alt="GitHub" className="social-icon" />
+          </a>
+        </div>
+      </footer>
     </main> 
   );
 }
