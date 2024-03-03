@@ -25,8 +25,7 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get("https://4jzrf4a39y.us.aircode.run/cachedValues")
+    axios.get('/api/cachedValues')
       .then((res) => {
         if (Array.isArray(res.data.results)) {
           setCachedResults(res.data.results);
@@ -41,30 +40,27 @@ function App() {
         setLoading(false);
       });
   }, []);
+  
 
-  useDebouncedEffect(
-    () => {
-      if (amount === defaultAmount) {
-        return;
-      }
-      if (amount !== prevAmount) {
-        setLoading(true);
-        axios
-          .get(`https://4jzrf4a39y.us.aircode.run/offers?amount=${amount}`)
-          .then((res) => {
-            setLoading(false);
-            setOfferResults(res.data);
-            setPrevAmount(amount);
-          })
-          .catch((error) => {
-            console.error("Error fetching offer results:", error);
-            setLoading(false);
-          });
-      }
-    },
-    300,
-    [amount]
-  );
+  useDebouncedEffect(() => {
+    if (amount === defaultAmount) {
+      return;
+    }
+    if (amount !== prevAmount) {
+      setLoading(true);
+      axios.get(`/api/offers?amount=${amount}`)
+        .then((res) => {
+          setLoading(false);
+          setOfferResults(res.data);
+          setPrevAmount(amount);
+        })
+        .catch((error) => {
+          console.error("Error fetching offer results:", error);
+          setLoading(false);
+        });
+    }
+  }, 300, [amount]);
+  
 
   function safeParseFloat(value: string | undefined): number {
     if (value === undefined) return 0;
