@@ -1,7 +1,7 @@
+// Replace import axios with import fetch
 import { useEffect, useState } from "react";
 import AmountInput from "./AmountInput";
 import ResultRow from "./ResultRow";
-import axios from "axios";
 import { sortBy } from "lodash";
 import useDebouncedEffect from "use-debounced-effect";
 import githubLogo from "./assets/github-11-128.png";
@@ -25,12 +25,13 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('/api/cachedValues')
-      .then((res) => {
-        if (Array.isArray(res.data.results)) {
-          setCachedResults(res.data.results);
+    fetch("https://4jzrf4a39y.us.aircode.run/cachedValues")
+      .then(response => response.json())
+      .then(data => {
+        if (Array.isArray(data.results)) {
+          setCachedResults(data.results);
         } else {
-          console.error("Unexpected data structure:", res.data);
+          console.error("Unexpected data structure:", data);
           setCachedResults([]);
         }
         setLoading(false);
@@ -40,27 +41,30 @@ function App() {
         setLoading(false);
       });
   }, []);
-  
 
-  useDebouncedEffect(() => {
-    if (amount === defaultAmount) {
-      return;
-    }
-    if (amount !== prevAmount) {
-      setLoading(true);
-      axios.get(`/api/offers?amount=${amount}`)
-        .then((res) => {
-          setLoading(false);
-          setOfferResults(res.data);
-          setPrevAmount(amount);
-        })
-        .catch((error) => {
-          console.error("Error fetching offer results:", error);
-          setLoading(false);
-        });
-    }
-  }, 300, [amount]);
-  
+  useDebouncedEffect(
+    () => {
+      if (amount === defaultAmount) {
+        return;
+      }
+      if (amount !== prevAmount) {
+        setLoading(true);
+        fetch(`https://4jzrf4a39y.us.aircode.run/offers?amount=${amount}`)
+          .then(response => response.json())
+          .then(data => {
+            setLoading(false);
+            setOfferResults(data);
+            setPrevAmount(amount);
+          })
+          .catch((error) => {
+            console.error("Error fetching offer results:", error);
+            setLoading(false);
+          });
+      }
+    },
+    300,
+    [amount]
+  );
 
   function safeParseFloat(value: string | undefined): number {
     if (value === undefined) return 0;
